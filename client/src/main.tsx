@@ -10,11 +10,11 @@ import App from "./App";
 
 // Import additional components for new routes
 // Try creating these components in the "pages" folder
-
+import Programs from "./pages/Programs";
 // import About from "./pages/About";
 // import Contact from "./pages/Contact";
 import Welcome from "./pages/Welcome"; // Import the new Welcome component
-import Programs from "./pages/Programs";
+
 /* ************************************************************************* */
 
 // Create router configuration with routes
