@@ -1,4 +1,3 @@
-// pages/Welcome.tsx
 import type React from "react";
 
 const Welcome: React.FC = () => {
