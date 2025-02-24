@@ -22,8 +22,10 @@ const programs = [
   },
 ];
 
-// Declare the actions
+// Importer l'accès aux données
 import type { RequestHandler } from "express";
+
+// Déclarer les actions
 
 const browse: RequestHandler = (req, res) => {
   if (req.query.q != null) {
@@ -46,5 +48,101 @@ const read: RequestHandler = (req, res) => {
   }
 };
 
-// Export them to import them somewhere else
-export default { browse, read };
+const add: RequestHandler = (req, res) => {
+  const newProgram = {
+    id: programs.length + 1, // Simuler l'ajout d'un nouvel ID
+    title: req.body.title,
+    synopsis: req.body.synopsis,
+    poster: req.body.poster,
+    country: req.body.country,
+    year: req.body.year,
+  };
+
+  programs.push(newProgram); // Ajouter le nouveau programme à la liste
+  res.status(201).json(newProgram);
+};
+
+const edit: RequestHandler = (req, res) => {
+  const programId = Number(req.params.id);
+  const programIndex = programs.findIndex((p) => p.id === programId);
+
+  if (programIndex !== -1) {
+    programs[programIndex] = {
+      ...programs[programIndex],
+      ...req.body,
+    };
+    res.sendStatus(204);
+  } else {
+    res.sendStatus(404);
+  }
+};
+
+const destroy: RequestHandler = (req, res) => {
+  const programId = Number(req.params.id);
+  const programIndex = programs.findIndex((p) => p.id === programId);
+
+  if (programIndex !== -1) {
+    programs.splice(programIndex, 1);
+    res.sendStatus(204);
+  } else {
+    res.sendStatus(404);
+  }
+};
+
+// Middleware de validation
+const validate: RequestHandler = (req, res, next) => {
+  type ValidationError = {
+    field: string;
+    message: string;
+  };
+
+  const errors: ValidationError[] = [];
+
+  const { title, synopsis, poster, country, year } = req.body;
+
+  // Vérifier que chaque champ requis est présent et du bon type
+  if (!title || typeof title !== "string") {
+    errors.push({
+      field: "title",
+      message: "Title is required and must be a string.",
+    });
+  }
+
+  if (!synopsis || typeof synopsis !== "string") {
+    errors.push({
+      field: "synopsis",
+      message: "Synopsis is required and must be a string.",
+    });
+  }
+
+  if (!poster || typeof poster !== "string") {
+    errors.push({
+      field: "poster",
+      message: "Poster URL is required and must be a string.",
+    });
+  }
+
+  if (!country || typeof country !== "string") {
+    errors.push({
+      field: "country",
+      message: "Country is required and must be a string.",
+    });
+  }
+
+  if (!year || typeof year !== "number") {
+    errors.push({
+      field: "year",
+      message: "Year is required and must be a number.",
+    });
+  }
+
+  // Si des erreurs sont présentes, renvoyer une réponse avec les erreurs
+  if (errors.length === 0) {
+    next();
+  } else {
+    res.status(400).json({ validationErrors: errors });
+  }
+};
+
+// Exporter les actions pour les importer ailleurs
+export default { browse, read, add, edit, destroy, validate };
