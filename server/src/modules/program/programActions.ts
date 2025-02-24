@@ -1,6 +1,6 @@
 // Importer l'accès aux données
-import programRepository from "./programRepository";
 import type { RequestHandler } from "express";
+import programRepository from "./programRepository";
 
 // Déclarer les actions
 
