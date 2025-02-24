@@ -14,6 +14,7 @@ function ProgramIndex() {
   const [programs, setPrograms] = useState([] as Program[]);
 
   useEffect(() => {
+    // Récupérer la liste des programmes depuis l'API
     fetch(`${import.meta.env.VITE_API_URL}/api/programs`)
       .then((response) => response.json())
       .then((data: Program[]) => {
