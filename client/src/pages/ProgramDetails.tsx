@@ -15,6 +15,7 @@ function ProgramDetails() {
   const [program, setProgram] = useState(null as null | Program);
 
   useEffect(() => {
+    // Récupérer les détails d'un programme spécifique depuis l'API
     fetch(`${import.meta.env.VITE_API_URL}/api/programs/${id}`)
       .then((response) => response.json())
       .then((data: Program) => {

@@ -25,6 +25,7 @@ function ProgramEdit() {
   });
 
   useEffect(() => {
+    // Récupérer les détails du programme à modifier depuis l'API
     fetch(`${import.meta.env.VITE_API_URL}/api/programs/${id}`)
       .then((response) => response.json())
       .then((data: Program) => {
@@ -42,6 +43,7 @@ function ProgramEdit() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
+    // Envoyer les données modifiées du programme à l'API
     fetch(`${import.meta.env.VITE_API_URL}/api/programs/${program.id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },

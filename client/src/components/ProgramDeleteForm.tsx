@@ -14,6 +14,7 @@ function ProgramDeleteForm({ id, children }: ProgramDeleteFormProps) {
       onSubmit={(event) => {
         event.preventDefault();
 
+        // Envoyer la requête de suppression à l'API
         fetch(`${import.meta.env.VITE_API_URL}/api/programs/${id}`, {
           method: "DELETE",
         }).then((response) => {

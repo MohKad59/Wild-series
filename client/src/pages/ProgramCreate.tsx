@@ -31,6 +31,7 @@ function ProgramCreate() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
+    // Envoyer les données du nouveau programme à l'API
     fetch(`${import.meta.env.VITE_API_URL}/api/programs`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
